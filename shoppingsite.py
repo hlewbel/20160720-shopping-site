@@ -52,7 +52,8 @@ def show_melon(melon_id):
     """
 
     melon = melons.get_by_id(melon_id)
-    print melon
+    
+
     return render_template("melon_details.html",
                            display_melon=melon)
 
@@ -72,12 +73,13 @@ def shopping_cart():
     #   - keep track of the total amt of the entire order
     # - hand to the template the total order cost and the list of melon types
 
-    # if "cart" in session:
-    for id in session["cart"]:
-        # get melon info for each id in list of melons
-
-
-    flash("Added melon to cart")    
+    if "cart" in session:
+        cart_contents = session["cart"]
+        print cart_contents
+        for melon_id in cart_contents:
+            details = melons.get_by_id(melon_id)
+            print details[melon_id][common_name]
+            print details[melon_id][price]
 
     return render_template("cart.html")
 
@@ -95,6 +97,12 @@ def add_to_cart(id):
     # The logic here should be something like:
     #
     # - add the id of the melon they bought to the cart in the session
+
+    #want to store the flash message in memory here when user clicks "add to cart"
+    flash("Added melon to cart")    
+
+    #display the add to cart message on screen by using jinja within cart.html
+
 
     if "cart" in session:
         session["cart"].append(id) 
